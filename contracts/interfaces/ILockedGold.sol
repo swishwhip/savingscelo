@@ -2,6 +2,7 @@
 pragma solidity 0.6.8;
 
 interface ILockedGold {
+	function unlockingPeriod() external returns (uint256);
 	function incrementNonvotingAccountBalance(address, uint256) external;
 	function decrementNonvotingAccountBalance(address, uint256) external;
 	function getAccountTotalLockedGold(address) external view returns (uint256);

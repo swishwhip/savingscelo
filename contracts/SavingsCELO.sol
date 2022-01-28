@@ -203,10 +203,13 @@ contract SavingsCELO is ERC20, IVoterProxy, Ownable, UsingRegistry {
 		}
 		_lockedGold.unlock(toWithdraw);
 
-		(uint256[] memory pendingValues, uint256[] memory pendingTimestamps) = _lockedGold.getPendingWithdrawals(address(this));
-		uint256 pendingValue = pendingValues[pendingValues.length - 1];
-		assert(pendingValue == toWithdraw);
-		pendingByAddr[msg.sender].push(PendingWithdrawal(pendingValue, pendingTimestamps[pendingTimestamps.length - 1]));
+		// (uint256[] memory pendingValues, uint256[] memory pendingTimestamps) = _lockedGold.getPendingWithdrawals(address(this));
+		// uint256 pendingValue = pendingValues[pendingValues.length - 1];
+		// assert(pendingValue == toWithdraw);
+		// pendingByAddr[msg.sender].push(PendingWithdrawal(pendingValue, pendingTimestamps[pendingTimestamps.length - 1]));
+		uint256 pendingValue = toWithdraw;
+		uint256 unlockingPeriod = _lockedGold.unlockingPeriod();
+		pendingByAddr[msg.sender].push(PendingWithdrawal(pendingValue, unlockingPeriod));
 		emit WithdrawStarted(msg.sender, savingsAmount, pendingValue);
 		return toWithdraw;
 	}
